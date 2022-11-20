@@ -13,6 +13,7 @@ const adminAuth = require('../Middleware/AdminMiddleware');
 
 // api/users
 // HELLLO WORLD
+//deneme
 router.get('/',[auth,adminAuth],async (req,res,next)=>{
     try{
         let result = await User.find({});
