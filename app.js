@@ -25,10 +25,10 @@ app.use(bodyParser.json())
 
 let models=require("./models")
 const f1=async()=>{
-    res = await models.user.findAll()
+    res = await models.Users.findAll()
 }
 f1()
-
+//todo migration çıkar
 
 
 //
