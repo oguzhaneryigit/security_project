@@ -1,27 +1,26 @@
 // imports
 const express = require('express');
-// const bodyParser = require('body-parser');
-// const { urlencoded } = require('express');
+const bodyParser = require('body-parser');
+const { urlencoded } = require('express');
+
 // require('./db/dbConnections');
 // const ErrorMiddleware =require("./Middleware/ErrorMiddleware.js");
 // const userRouter= require("./Routes/userRouter.js")
 
 // constants
-const PORT = 3000;
+const {
+    PORT,
+    dbName,
+    userName,
+    password,
+    dbOptions
+} = require("./utils/config")
 
 // middlewares
 const app=express();
 app.use(express.json());
-// app.use(urlencoded({extended:true}));
-//app.use(bodyParser.json())
-let dbOptions={
-    port:5432,
-    host: 'localhost',
-    dialect: 'postgres'
-}
-let dbName="SecurityProjectDB"
-let userName="postgres"
-let password="1029"
+app.use(urlencoded({extended:true}));
+app.use(bodyParser.json())
 
 const { Sequelize, Model, DataTypes } = require("sequelize");
 const sequelize = new Sequelize(dbName, userName, password, dbOptions);
