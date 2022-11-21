@@ -22,21 +22,12 @@ app.use(express.json());
 app.use(urlencoded({extended:true}));
 app.use(bodyParser.json())
 
-const { Sequelize, Model, DataTypes } = require("sequelize");
-const sequelize = new Sequelize(dbName, userName, password, dbOptions);
 
-const f=async()=>{
-    try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-    } catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
+let models=require("./models")
+const f1=async()=>{
+    res = await models.user.findAll()
 }
-f()
-// app.use("/api/users",userRouter);
-//
-// app.use(ErrorMiddleware);
+f1()
 
 
 

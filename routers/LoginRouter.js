@@ -7,7 +7,7 @@ const ObjectId = mongoose.Types.ObjectId;
 const createError=require("http-errors")
 const bcrypt = require("bcrypt");
 
-const User = require("../models/userModel")
+const User = require("../models/user")
 const auth = require('../Middleware/AuthMiddleware');
 const adminAuth = require('../Middleware/AdminMiddleware');
 
