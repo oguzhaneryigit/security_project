@@ -5,5 +5,5 @@ const AuthMiddleware = require("../middlewares/AuthMiddleware")
 
 router.get('/listall',AuthMiddleware,listAllUsers)
 router.post("/add", addUser)
-
+//
 module.exports = router
