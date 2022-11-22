@@ -8,7 +8,7 @@ indexRouter = require("./routers/indexRouter")
 userRouter = require("./routers/userRouter")
 
 // constants
-const {PORT} = require("./utils/config")
+const {PORT} = require("./config/config")
 
 // run application
 const app = express();
@@ -27,7 +27,7 @@ const {
     userName,
     password,
     dbOptions
-} = require("./utils/config")
+} = require("./config/config")
 const sequelize = new Sequelize(dbName, userName, password, dbOptions);
 const auth=async ()=>{
     try {

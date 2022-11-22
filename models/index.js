@@ -14,7 +14,7 @@ const {
     userName,
     password,
     dbOptions
-} = require("../utils/config")
+} = require("../config/config")
 const sequelize = new Sequelize(dbName, userName, password, dbOptions);
 const auth=async ()=>{
     try {
