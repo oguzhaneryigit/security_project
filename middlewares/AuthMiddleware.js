@@ -1,5 +1,6 @@
 const createHttpError = require("http-errors");
 const jwt =require("jsonwebtoken")
+const {salt} = require("../config/config")
 const auth =async (req,res,next)=>{
     try{
         if(!req.header("Authorization")){
@@ -7,13 +8,11 @@ const auth =async (req,res,next)=>{
         }
         const token=req.header("Authorization").replace("Bearer ","");
         console.log(token);
-        const result = jwt.verify(token,"cokgizlianahtar")
-        req.user=result
-        console.log(result)
-
+        const payload = jwt.verify(token,salt)
+        req.user=payload.username
         next()
     }catch(e){
-        next(e)
+        res.status(401).send("Not authorized")
     }
 }
 

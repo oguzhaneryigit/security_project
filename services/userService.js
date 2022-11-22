@@ -1,6 +1,8 @@
 const {Users} = require("../models")
 const bcrypt = require("bcrypt")
-const {salt} = require("../config/config")
+const {salt,expiresIn,algorithm} = require("../config/config")
+const jwt = require("jsonwebtoken")
+
 const listAllUsers = async (req, res) => {
     Users.findAll()
         .then(result => {
@@ -31,11 +33,12 @@ const addUser = async (req, res) => {
 const login = async (req,res)=>{
     let {username,password} = req.body
     let hashedpw = await bcrypt.hash(password,salt)
-    Users.findOne({ where: { username } }).then(result=>{
+    Users.findOne({ where: { username } }).then(async (result)=>{
         console.log(result)
         user = result.dataValues
         if (user.password==hashedpw){
-            res.status(200).send({username,token:"x"})
+            let token = await jwt.sign({username},salt,{algorithm,expiresIn})
+            res.status(200).send({username,token})
         }else{
             throw Error()
         }
