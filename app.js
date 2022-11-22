@@ -22,23 +22,7 @@ app.use(bodyParser.json())
 app.use("/", indexRouter)
 app.use("/user", userRouter)
 
-const {
-    dbName,
-    userName,
-    password,
-    dbOptions
-} = require("./config/config")
-const sequelize = new Sequelize(dbName, userName, password, dbOptions);
-const auth=async ()=>{
-    try {
-        await sequelize.authenticate();
-        console.log('Connection has been established successfully.');
-    }
-    catch (error) {
-        console.error('Unable to connect to the database:', error);
-    }
-}
-auth()
+
 // listen port
 app.listen(PORT, () => {
     console.log("application is runing at ", PORT, " port")
