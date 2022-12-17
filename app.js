@@ -29,6 +29,7 @@ app.use(bodyParser.json())
 // middle end-points
 app.use("/", indexRouter)
 app.use("/user", userRouter)
+app.use("/customer",customerRouter)
 
 
 // https port
