@@ -5,6 +5,14 @@ const bodyParser = require('body-parser');
 const {urlencoded} = require('express');
 const Sequelize = require("sequelize")
 
+
+//todo 2 Factor Authentication (Email Code)
+//todo Input Validation
+//todo SSL Certificate
+
+
+
+
 // ssl credentials
 // let privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
 // let certificate = fs.readFileSync('sslcert/server.crt', 'utf8');

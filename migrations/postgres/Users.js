@@ -23,6 +23,13 @@ sequelize.define('Users', {
         type: DataTypes.STRING(128),
         allowNull:false
     },
+    balance:{
+        type:DataTypes.INTEGER,
+        allowNull:false,
+        defaultvalue:0
+    }
+
+
    
 
 
@@ -30,6 +37,7 @@ sequelize.define('Users', {
 },{
     timestamps:true
 });
+
 
 const f=async ()=>{
     await sequelize.sync({ force: true });

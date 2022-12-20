@@ -1,0 +1,2 @@
+require("./migrations/postgres/Users")
+

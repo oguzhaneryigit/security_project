@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken")
 
 
 
-const transferMoney = async (req, res) => {
+const transferMoney = async (req, res) => { //todo Test edilecek
     let {sender,receiver,amount} = req.body
     try{
         let sendercostumer = await Users.findOne({where:{username}})
@@ -28,7 +28,7 @@ const transferMoney = async (req, res) => {
         
 }
 
-const listAllIncomingTransfers = async (req, res) => {
+const listAllIncomingTransfers = async (req, res) => { //todo Test edilecek
     let {customername} = req.body
     let customerId
     try{
@@ -45,7 +45,7 @@ const listAllIncomingTransfers = async (req, res) => {
         res.status(400).send()
     }
 }
-const listAllOutgoingTransfers = async (req, res) => {
+const listAllOutgoingTransfers = async (req, res) => { //todo Test edilecek
     let {customername} = req.body
     let customerId
     try{
@@ -63,7 +63,7 @@ const listAllOutgoingTransfers = async (req, res) => {
     }
 }
 //pora yatir 
-const depositMoney = async (req, res) => { //todo 
+const depositMoney = async (req, res) => { //todo Test edilecek
     let {username,amount} = req.body
     let userId
     try{
@@ -87,7 +87,7 @@ const depositMoney = async (req, res) => { //todo
         
 }
 //para cek
-const withdrawMoney = async (req, res) => { //todo 
+const withdrawMoney = async (req, res) => { //todo Test edilecek
     let {username,amount} = req.body
     let userId
     try{
