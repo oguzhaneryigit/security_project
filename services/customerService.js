@@ -1,4 +1,4 @@
-const {Transactions,Customers} = require("../models")
+const {Transactions,Customers,Users} = require("../models")
 const bcrypt = require("bcrypt")
 const {salt,expiresIn,algorithm} = require("../config/config")
 const jwt = require("jsonwebtoken")
@@ -8,11 +8,11 @@ const jwt = require("jsonwebtoken")
 
 
 const transferMoney = async (req, res) => {
-    let {sendername,sender,receiver,amount} = req.body
+    let {sender,receiver,amount} = req.body
     try{
-        let sendercostumer =await Customers.findOne({where:{customername:sendername}})
+        let sendercostumer = await Users.findOne({where:{username}})
         if(sendercostumer.dataValues.balance<amount)
-            throw Error("insufficient balance to transfer money")
+            throw Error("Insufficient balance to transfer money")
             
          Transactions.create({ sender, receiver,amount})
         .then(result => {
@@ -27,7 +27,6 @@ const transferMoney = async (req, res) => {
    
         
 }
-
 
 const listAllIncomingTransfers = async (req, res) => {
     let {customername} = req.body
@@ -56,12 +55,63 @@ const listAllOutgoingTransfers = async (req, res) => {
             throw Error("customer could not found")
 
         let result = await Transactions.findAll( {sender:customername})
-        console.log("All  Outgoing transactions listed")
+        console.log("All Outgoing transactions listed")
         res.status(200).send(result)
     }catch (e) {
         console.log(e)
         res.status(400).send()
     }
+}
+//pora yatir 
+const depositMoney = async (req, res) => { //todo 
+    let {username,amount} = req.body
+    let userId
+    try{
+        
+        let user =await Users.findOne({where:{username}})
+        userId=user.dataValues.id
+        let userwid =await Users.findOne({where:{userId}})
+        if (user==null || userwid==null)
+            throw Error("user could not found")
+        Users.update({balance:balance+amount},{where:{username}}) 
+        .then(result => {
+            console.log("Money deposited into your account")
+            res.status(200).send(result)
+        })
+    }catch (e) {
+        console.log(e)
+        res.status(400).send()
+    
+    }
+   
+        
+}
+//para cek
+const withdrawMoney = async (req, res) => { //todo 
+    let {username,amount} = req.body
+    let userId
+    try{
+        let user =await Users.findOne({where:{username}})
+        userId=user.dataValues.id
+        let userwid =await Users.findOne({where:{userId}})
+        if (user==null || userwid==null)
+            throw Error("user could not found")
+
+        if(user.dataValues.balance<amount)
+            throw Error("Insufficient balance to withdraw money")
+            
+        Users.update({balance:balance-amount},{where:{username}})
+        .then(result => {
+            console.log("Money withdrawn from your account")
+            res.status(200).send(result)
+        })
+    }catch (e) {
+        console.log(e)
+        res.status(400).send()
+    
+    }
+   
+        
 }
 
 
@@ -70,6 +120,8 @@ const listAllOutgoingTransfers = async (req, res) => {
 module.exports = {
     transferMoney,
     listAllOutgoingTransfers,
-    listAllIncomingTransfers
+    listAllIncomingTransfers,
+    depositMoney,
+    withdrawMoney
 
 }
