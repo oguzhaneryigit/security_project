@@ -13,6 +13,7 @@ const Sequelize = require("sequelize")
 // routes
 indexRouter = require("./routers/indexRouter")
 userRouter = require("./routers/userRouter")
+customerRouter=require("./routers/customerRouter")
 
 // constants
 const {PORT} = require("./config/config")
