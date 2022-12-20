@@ -37,7 +37,7 @@ const login = async (req,res)=>{
         console.log(result)
         user = result.dataValues
         if (user.password==hashedpw){
-            let token = await jwt.sign({username},salt,{algorithm,expiresIn})
+            let token = await jwt.sign({username,admin:user.admin},salt,{algorithm,expiresIn})
             res.status(200).send({username,token})
         }else{
             throw Error()

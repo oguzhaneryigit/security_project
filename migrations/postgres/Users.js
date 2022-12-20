@@ -25,20 +25,15 @@ sequelize.define('Users', {
     },
     balance:{
         type:DataTypes.INTEGER,
-        allowNull:false,
-        defaultvalue:0
+        defaultValue:0,
+        allowNull:false
+
     },
     admin:{
         type:DataTypes.BOOLEAN,
-        allowNull:false,
-       
+        defaultValue:false,
+        allowNull:false
     }
-
-
-   
-
-
-
 },{
     timestamps:true
 });

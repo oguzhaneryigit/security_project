@@ -43,9 +43,9 @@ app.use("/customer",customerRouter)
 
 
 // https port
-httpsServer.listen(PORT);
+// httpsServer.listen(PORT);
 
 // http port
-// app.listen(PORT, () => {
-//     console.log("application is runing at ", PORT, " port")
-// })
+app.listen(PORT, () => {
+    console.log("application is runing at ", PORT, " port")
+})
