@@ -14,6 +14,12 @@ module.exports = (sequelize, DataTypes) => {
         password: {
             type: DataTypes.STRING,
             allowNull:false
+        },
+       
+        balance:{
+            type:DataTypes.INTEGER,
+            allowNull:false,
+            defaultvalue:0
         }
     },{
         timestamps:true

@@ -22,7 +22,9 @@ sequelize.define('Users', {
     password: {
         type: DataTypes.STRING(128),
         allowNull:false
-    }
+    },
+   
+
 
 
 },{
