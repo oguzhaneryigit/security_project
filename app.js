@@ -38,12 +38,8 @@ app.use(bodyParser.json())
 
 // middle end-points
 app.use("/", indexRouter)
-<<<<<<< Updated upstream
 app.use("/user", userRouter)
 app.use("/customer",customerRouter)
-=======
-app.use("/admin", userRouter)
->>>>>>> Stashed changes
 
 
 // https port

@@ -83,7 +83,6 @@ const depositMoney = async (req, res) => { //todo Test edilecek
         res.status(400).send()
     
     }
-   
         
 }
 //para cek

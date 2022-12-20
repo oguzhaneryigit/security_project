@@ -1,9 +1,9 @@
 const express=require('express');
 const {listAllUsers,addUser} = require("../services/userService");
 const router = express.Router();
-const AuthMiddleware = require("../middlewares/AuthMiddleware")
+const AdminAuthMiddleware = require("../middlewares/AdminAuthMiddleware")
 
-router.get('/listall',AuthMiddleware,listAllUsers)
-router.post("/add", addUser)
+router.get('/listall',AdminAuthMiddleware,listAllUsers)
+router.post("/add", AdminAuthMiddleware,addUser)
 //
 module.exports = router
