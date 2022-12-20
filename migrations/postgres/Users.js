@@ -27,6 +27,11 @@ sequelize.define('Users', {
         type:DataTypes.INTEGER,
         allowNull:false,
         defaultvalue:0
+    },
+    admin:{
+        type:DataTypes.BOOLEAN,
+        allowNull:false,
+       
     }
 
 
