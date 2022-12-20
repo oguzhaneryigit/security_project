@@ -6,6 +6,11 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             primaryKey: true
         },
+        // email:{ //todo
+        //     type: DataTypes.STRING,
+        //     unique: true,
+        //     allowNull:false
+        // },
         username: {
             type: DataTypes.STRING,
             unique: true,
