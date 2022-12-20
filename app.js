@@ -4,6 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const {urlencoded} = require('express');
 const Sequelize = require("sequelize")
+const fs= require("fs")
 
 
 //todo 2 Factor Authentication (Email Code)
@@ -14,9 +15,9 @@ const Sequelize = require("sequelize")
 
 
 // ssl credentials
-// let privateKey  = fs.readFileSync('sslcert/server.key', 'utf8');
-// let certificate = fs.readFileSync('sslcert/server.crt', 'utf8');
-// let credentials = {key: privateKey, cert: certificate};
+let key  = fs.readFileSync('sslcert/key.pem');
+let cert = fs.readFileSync('sslcert/cert.pem');
+let credentials = {key, cert};
 
 // routes
 indexRouter = require("./routers/indexRouter")
@@ -28,7 +29,7 @@ const {PORT} = require("./config/config")
 
 // run application
 const app = express();
-// const httpsServer = https.createServer(credentials, app);
+const httpsServer = https.createServer(credentials, app);
 
 // middlewares
 app.use(express.json());
@@ -37,14 +38,18 @@ app.use(bodyParser.json())
 
 // middle end-points
 app.use("/", indexRouter)
+<<<<<<< Updated upstream
 app.use("/user", userRouter)
 app.use("/customer",customerRouter)
+=======
+app.use("/admin", userRouter)
+>>>>>>> Stashed changes
 
 
 // https port
-// httpsServer.listen(4000);
+httpsServer.listen(PORT);
 
 // http port
-app.listen(PORT, () => {
-    console.log("application is runing at ", PORT, " port")
-})
+// app.listen(PORT, () => {
+//     console.log("application is runing at ", PORT, " port")
+// })
