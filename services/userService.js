@@ -2,6 +2,7 @@ const {Users} = require("../models")
 const bcrypt = require("bcrypt")
 const {salt,expiresIn,algorithm} = require("../config/config")
 const jwt = require("jsonwebtoken")
+const nodemailer = require("nodemailer")
 
 const listAllUsers = async (req, res) => {
     Users.findAll()
@@ -17,25 +18,49 @@ const listAllUsers = async (req, res) => {
 }
 const addUser = async (req, res) => {
     let {email,username,password} = req.body
-
     let hashedPw = await bcrypt.hash(password,salt)
-    Users.create({email, username, password:hashedPw})
+    const user = Users.create({email, username, password:hashedPw})
         .then(result => {
             console.log("user added")
-
+            
             res.status(200).send(result)
         })
         .catch(error =>{
             console.log(error)
             res.status(400).send()
         })
-}
+
+        jwt.sign(
+            {
+              user: _.pick(user, 'id'),
+            },
+            EMAIL_SECRET,
+            {
+              expiresIn: '1d',
+            },
+            (err, emailToken) => {
+              const url = `http://localhost:3000/confirmation/${emailToken}`;
+    
+              transporter.sendMail({
+                to: args.email,
+                subject: 'Confirm Email',
+                html: `Please click this email to confirm your email: <a href="${url}">${url}</a>`,
+              });
+            },
+          );
+
+          return user;
+        }
 const login = async (req,res)=>{
     let {username,password} = req.body
     let hashedpw = await bcrypt.hash(password,salt)
+
     Users.findOne({ where: { username } }).then(async (result)=>{
         console.log(result)
         user = result.dataValues
+        if(!user.status){
+            throw new Error("Please confirm your Email")
+        }
         if (user.password==hashedpw){
             let token = await jwt.sign({username,admin:user.admin},salt,{algorithm,expiresIn})
             res.status(200).send({username,token})
