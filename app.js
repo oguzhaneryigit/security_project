@@ -10,14 +10,14 @@ const fs= require("fs")
 //todo 2 Factor Authentication (Email Code)
 //todo Input Validation
 //todo SSL Certificate
-
+//todo sql injection kontrolü
 
 
 
 // ssl credentials
-// let key  = fs.readFileSync('sslcert/key.pem');
-// let cert = fs.readFileSync('sslcert/cert.pem');
-// let credentials = {key, cert};
+let key  = fs.readFileSync('sslcert/key.pem');
+let cert = fs.readFileSync('sslcert/cert.pem');
+let credentials = {key, cert};
 
 // routes
 indexRouter = require("./routers/indexRouter")
