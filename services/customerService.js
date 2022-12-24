@@ -67,7 +67,7 @@ const depositMoney = async (req, res) => { //todo Test edilecek
     let {username,amount} = req.body
     let userId
     try{
-        
+
         let user =await Users.findOne({where:{username}})
         userId=user.dataValues.id
         let userwid =await Users.findOne({where:{userId}})

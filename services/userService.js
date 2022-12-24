@@ -16,10 +16,10 @@ const listAllUsers = async (req, res) => {
         })
 }
 const addUser = async (req, res) => {
-    let {username,password} = req.body
+    let {email,username,password} = req.body
 
     let hashedPw = await bcrypt.hash(password,salt)
-    Users.create({ username, password:hashedPw})
+    Users.create({email, username, password:hashedPw})
         .then(result => {
             console.log("user added")
 
