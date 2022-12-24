@@ -6,11 +6,11 @@ module.exports = (sequelize, DataTypes) => {
             autoIncrement: true,
             primaryKey: true
         },
-        // email:{ //todo
-        //     type: DataTypes.STRING,
-        //     unique: true,
-        //     allowNull:false
-        // },
+        email:{ //todo
+            type: DataTypes.STRING,
+            unique: true,
+            allowNull:false
+        },
         username: {
             type: DataTypes.STRING,
             unique: true,
@@ -28,6 +28,11 @@ module.exports = (sequelize, DataTypes) => {
 
         },
         admin:{
+            type:DataTypes.BOOLEAN,
+            defaultValue:false,
+            allowNull:false
+        },
+        status:{
             type:DataTypes.BOOLEAN,
             defaultValue:false,
             allowNull:false

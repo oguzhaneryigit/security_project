@@ -19,6 +19,12 @@ sequelize.define('Users', {
         unique: true,
         allowNull:false
     },
+    email:{ //todo
+        type: DataTypes.STRING,
+        unique: true,
+        allowNull:false
+    },
+
     password: {
         type: DataTypes.STRING(128),
         allowNull:false
@@ -30,6 +36,11 @@ sequelize.define('Users', {
 
     },
     admin:{
+        type:DataTypes.BOOLEAN,
+        defaultValue:false,
+        allowNull:false
+    },
+    status:{
         type:DataTypes.BOOLEAN,
         defaultValue:false,
         allowNull:false
