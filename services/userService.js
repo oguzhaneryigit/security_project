@@ -1,9 +1,9 @@
 const {Users} = require("../models")
 const bcrypt = require("bcrypt")
-const {salt,expiresIn,algorithm} = require("../config/config")
+const {salt,expiresIn,algorithm,GMAIL_PASS,GMAIL_USER} = require("../config/config")
 const jwt = require("jsonwebtoken")
 const nodemailer = require("nodemailer")
-
+//require('dotenv').config();
 const listAllUsers = async (req, res) => {
     Users.findAll()
         .then(result => {
@@ -17,6 +17,13 @@ const listAllUsers = async (req, res) => {
         })
 }
 const addUser = async (req, res) => {
+    const transporter = nodemailer.createTransport({
+        service: 'Gmail',
+        auth: {
+          user: GMAIL_USER,
+          pass: GMAIL_PASS,
+        },
+      });
     let {email,username,password} = req.body
     let hashedPw = await bcrypt.hash(password,salt)
     const user = Users.create({email, username, password:hashedPw})
