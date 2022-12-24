@@ -9,15 +9,32 @@ const complexityOptions = {
     numeric: 1,
     symbol: 1
 };
+const usernameConstraints =Joi.string()
+    .alphanum()
+    .min(8)
+    .max(30)
+    .required()
+const amountConstraints=Joi.number().required().min(0)
+const credentialWemailScheama = Joi.object({
+    username:usernameConstraints,
+    password: passwordComplexity(complexityOptions),
+    email: Joi.string().email({ tlds: { allow: false } })
+})
 const credentialScheama = Joi.object({
-    username: Joi.string()
-        .alphanum()
-        .min(8)
-        .max(30)
-        .required(),
-
-    password: passwordComplexity(complexityOptions)
-
+    username:usernameConstraints,
+    password: Joi.string()
+})
+const listTransferSchema = Joi.object({
+    username:usernameConstraints
+})
+const transferSchema = Joi.object({
+    sender:usernameConstraints,
+    receiver:usernameConstraints,
+    amount:amountConstraints
+})
+const moneyProcessSchema= Joi.object({
+    username:usernameConstraints,
+    amount:amountConstraints
 })
 
 const loginBodyValidator =async (req,res,next)=>{
@@ -28,7 +45,42 @@ const loginBodyValidator =async (req,res,next)=>{
         res.status(401).send("Not supported data type")
     }
 }
-
+const RegisterBodyValidator =async (req,res,next)=>{
+    try{
+        await credentialWemailScheama.validateAsync(req.body)
+        next()
+    }catch(e){
+        res.status(401).send("Not supported data type")
+    }
+}
+const moneyProcessValidator =async (req,res,next)=>{
+    try{
+        await moneyProcessSchema.validateAsync(req.body)
+        next()
+    }catch(e){
+        res.status(401).send("Not supported data type")
+    }
+}
+const transferValidator =async (req,res,next)=>{
+    try{
+        await transferSchema.validateAsync(req.body)
+        next()
+    }catch(e){
+        res.status(401).send("Not supported data type")
+    }
+}
+const listTransferValidator =async (req,res,next)=>{
+    try{
+        await listTransferSchema.validateAsync(req.body)
+        next()
+    }catch(e){
+        res.status(401).send("Not supported data type")
+    }
+}
 module.exports = {
-    loginBodyValidator
+    loginBodyValidator,
+    listTransferValidator,
+    transferValidator,
+    moneyProcessValidator,
+    RegisterBodyValidator,
 }

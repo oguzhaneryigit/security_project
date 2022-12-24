@@ -7,7 +7,7 @@ const Sequelize = require("sequelize")
 const fs= require("fs")
 
 
-//todo 2 Factor Authentication (Email Code)
+
 //todo Input Validation
 //todo SSL Certificate
 //todo sql injection kontrolü
