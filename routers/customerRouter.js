@@ -3,8 +3,8 @@ const {transferMoney,listAllOutgoingTransfers,listAllIncomingTransfers, depositM
 const router = express.Router();
 const AuthMiddleware = require("../middlewares/AuthMiddleware")
 
-router.get('/listAllOutgoingTransfers',AuthMiddleware,listAllOutgoingTransfers)
-router.get('/listAllIncomingTransfers',AuthMiddleware,listAllIncomingTransfers)
+router.post('/listAllOutgoingTransfers',AuthMiddleware,listAllOutgoingTransfers)
+router.post('/listAllIncomingTransfers',AuthMiddleware,listAllIncomingTransfers)
 router.post("/transfermoney", transferMoney)
 router.post("/depositMoney",depositMoney)
 router.post("/withdrawMoney",withdrawMoney)

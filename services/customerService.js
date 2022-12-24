@@ -3,22 +3,33 @@ const bcrypt = require("bcrypt")
 const {salt,expiresIn,algorithm} = require("../config/config")
 const jwt = require("jsonwebtoken")
 
-
-
-
-
 const transferMoney = async (req, res) => { //todo Test edilecek
     let {sender,receiver,amount} = req.body
     try{
-        let sendercostumer = await Users.findOne({where:{username}})
+        let sendercostumer = await Users.findOne({where:{sender}})
+        let receivercostumer = await Users.findOne({where:{receiver}})
+        if (sendercostumer==null ||receivercostumer==null){
+            throw Error("Customers(s) could not found")
+        }
         if(sendercostumer.dataValues.balance<amount)
             throw Error("Insufficient balance to transfer money")
-            
-         Transactions.create({ sender, receiver,amount})
-        .then(result => {
-            console.log("Money Transferred ")
-            res.status(200).send(result)
+
+        let b1=sendercostumer.dataValues.balance
+        let b2=receivercostumer.dataValues.balance
+        sendercostumer.set({
+            balance:b1-amount
         })
+        receivercostumer.set({
+            balance:b2+amount
+        })
+
+        let result1 = await sendercostumer.save()
+        let result2 = await receivercostumer.save()
+        let result3 = await Transactions.create({ sender, receiver,amount})
+
+        console.log("Money Transferred ")
+        res.status(200).send(result)
+
     }catch (e) {
         console.log(e)
         res.status(400).send()
@@ -29,13 +40,12 @@ const transferMoney = async (req, res) => { //todo Test edilecek
 }
 
 const listAllIncomingTransfers = async (req, res) => { //todo Test edilecek
-    let {customername} = req.body
-    let customerId
     try{
-        let customer =await Transactions.findOne({where:{receiver:customername}})
-        customerId=customer.dataValues.id
+        let {username} = req.body
+        let customer =await Users.findOne({where:{username}})
         if (customer==null)
             throw Error("customer could not found")
+        // let customerId=customer.dataValues.id
 
         let result = await Transactions.findAll( {receiver:customername})
         console.log("All Incoming transactions listed")
@@ -46,38 +56,38 @@ const listAllIncomingTransfers = async (req, res) => { //todo Test edilecek
     }
 }
 const listAllOutgoingTransfers = async (req, res) => { //todo Test edilecek
-    let {customername} = req.body
-    let customerId
     try{
-        let customer =await Transactions.findOne({where:{sender:customername}})
-        customerId=customer.dataValues.id
+        let {username} = req.body
+        let customer =await Users.findOne({where:{username}})
         if (customer==null)
             throw Error("customer could not found")
+        // let customerId=customer.dataValues.id
 
         let result = await Transactions.findAll( {sender:customername})
-        console.log("All Outgoing transactions listed")
+        console.log("All going transactions listed")
         res.status(200).send(result)
     }catch (e) {
         console.log(e)
         res.status(400).send()
     }
 }
-//pora yatir 
+//para yatir
 const depositMoney = async (req, res) => { //todo Test edilecek
-    let {username,amount} = req.body
-    let userId
     try{
+        let {username,amount} = req.body
+        let userId
 
         let user =await Users.findOne({where:{username}})
-        userId=user.dataValues.id
-        let userwid =await Users.findOne({where:{userId}})
-        if (user==null || userwid==null)
+        if (user==null)
             throw Error("user could not found")
-        Users.update({balance:balance+amount},{where:{username}}) 
-        .then(result => {
-            console.log("Money deposited into your account")
-            res.status(200).send(result)
+        b1=user.dataValues.balance
+        user.set({
+            balance:b1+amount
         })
+        await user.save()
+        console.log("Money deposited into your account")
+        res.status(200).send("Money deposited into your account")
+
     }catch (e) {
         console.log(e)
         res.status(400).send()
@@ -87,27 +97,28 @@ const depositMoney = async (req, res) => { //todo Test edilecek
 }
 //para cek
 const withdrawMoney = async (req, res) => { //todo Test edilecek
-    let {username,amount} = req.body
-    let userId
     try{
-        let user =await Users.findOne({where:{username}})
-        userId=user.dataValues.id
-        let userwid =await Users.findOne({where:{userId}})
-        if (user==null || userwid==null)
-            throw Error("user could not found")
+        let {username,amount} = req.body
+        let userId
 
-        if(user.dataValues.balance<amount)
-            throw Error("Insufficient balance to withdraw money")
-            
-        Users.update({balance:balance-amount},{where:{username}})
-        .then(result => {
-            console.log("Money withdrawn from your account")
-            res.status(200).send(result)
+        let user =await Users.findOne({where:{username}})
+        if (user==null)
+            throw Error("user could not found")
+        let b1=user.dataValues.balance
+        if(b1<amount){
+            throw Error("balance is not enough")
+        }
+        user.set({
+            balance:b1+amount
         })
+        await user.save()
+        console.log("Money deposited into your account")
+        res.status(200).send("Money deposited into your account")
+
     }catch (e) {
         console.log(e)
         res.status(400).send()
-    
+
     }
    
         
