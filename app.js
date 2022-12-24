@@ -15,9 +15,9 @@ const fs= require("fs")
 
 
 // ssl credentials
-let key  = fs.readFileSync('sslcert/key.pem');
-let cert = fs.readFileSync('sslcert/cert.pem');
-let credentials = {key, cert};
+// let key  = fs.readFileSync('sslcert/key.pem');
+// let cert = fs.readFileSync('sslcert/cert.pem');
+// let credentials = {key, cert};
 
 // routes
 indexRouter = require("./routers/indexRouter")
