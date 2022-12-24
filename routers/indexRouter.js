@@ -5,9 +5,8 @@ const router = express.Router();
 router.post('/login',async (req,res,next)=>{
     login(req,res)
 })
-router.post('/register',async (req,res,next)=>{
-    //login kodları
-})
+router.post("/register", loginBodyValidator)
+
 router.get('/resetpassword',async (req,res,next)=>{
     //login kodları
 })

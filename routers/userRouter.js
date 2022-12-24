@@ -5,6 +5,5 @@ const AdminAuthMiddleware = require("../middlewares/AdminAuthMiddleware")
 const {loginBodyValidator} = require("../middlewares/ValidationMiddlewares");
 
 router.get('/listall',AdminAuthMiddleware,listAllUsers)
-router.post("/add", loginBodyValidator,addUser)
-//
+
 module.exports = router
