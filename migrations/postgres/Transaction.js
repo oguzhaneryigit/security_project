@@ -17,13 +17,13 @@ sequelize.define('Transactions', {
         },
         sender: {
             type: DataTypes.STRING,
-            allowNull:false,
-            unique:true
+            allowNull:false
+           
         },
         receiver: {
             type: DataTypes.STRING,
-            allowNull:false,
-            unique:true
+            allowNull:false
+            
         },
         amount:{
             type:DataTypes.INTEGER,
@@ -36,7 +36,7 @@ sequelize.define('Transactions', {
 );
 
 const f=async ()=>{
-    await sequelize.sync({ force: false });
+    await sequelize.sync({ force: true });
     console.log("The table for the User model was just (re)created!");
 }
 f()

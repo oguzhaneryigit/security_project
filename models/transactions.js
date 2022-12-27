@@ -8,13 +8,13 @@ module.exports = (sequelize, DataTypes) => {
         },
         sender: {
             type: DataTypes.STRING,
-            allowNull:false,
-            unique:true
+            allowNull:false
+            
         },
         receiver: {
             type: DataTypes.STRING,
-            allowNull:false,
-            unique:true
+            allowNull:false
+            
         },
         amount:{
             type:DataTypes.INTEGER,

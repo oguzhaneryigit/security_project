@@ -46,11 +46,15 @@ const loginBodyValidator =async (req,res,next)=>{
     }
 }
 const RegisterBodyValidator =async (req,res,next)=>{
+    
     try{
+        console.log(req.body)
         await credentialWemailScheama.validateAsync(req.body)
+        
         next()
     }catch(e){
         res.status(401).send("Not supported data type")
+        //console.log(e)
     }
 }
 const moneyProcessValidator =async (req,res,next)=>{

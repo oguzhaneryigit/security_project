@@ -10,6 +10,11 @@ const auth =async (req,res,next)=>{
         console.log(token);
         const payload = jwt.verify(token,salt)
         req.user=payload.username
+        if(req.method=="POST"){
+            if(req.user != req.body.username){
+                throw Error()
+            }
+        }
         next()
     }catch(e){
         res.status(401).send("Not authorized")

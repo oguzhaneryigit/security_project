@@ -50,7 +50,7 @@ const addUser = async (req, res) => {
         res.status(200).send(user)
 
     } catch (e) {
-        console.log(error)
+        console.log(e)
         res.status(400).send()
     }
 

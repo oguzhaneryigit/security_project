@@ -6,29 +6,29 @@ const jwt = require("jsonwebtoken")
 const transferMoney = async (req, res) => { //todo Test edilecek
     let {sender,receiver,amount} = req.body
     try{
-        let sendercostumer = await Users.findOne({where:{sender}})
-        let receivercostumer = await Users.findOne({where:{receiver}})
+        let sendercostumer = await Users.findOne({where:{username:sender}})
+        let receivercostumer = await Users.findOne({where:{username:receiver}})
         if (sendercostumer==null ||receivercostumer==null){
             throw Error("Customers(s) could not found")
         }
-        if(sendercostumer.dataValues.balance<amount)
+        if(sendercostumer.balance<amount)
             throw Error("Insufficient balance to transfer money")
 
-        let b1=sendercostumer.dataValues.balance
-        let b2=receivercostumer.dataValues.balance
+        let b1=sendercostumer.balance
+        let b2=receivercostumer.balance
         sendercostumer.set({
             balance:b1-amount
         })
         receivercostumer.set({
             balance:b2+amount
         })
-
+        //let result1 = await Users.upddate({balance:b1-amount},{username:sendercostumer.username})
         let result1 = await sendercostumer.save()
         let result2 = await receivercostumer.save()
         let result3 = await Transactions.create({ sender, receiver,amount})
 
         console.log("Money Transferred ")
-        res.status(200).send(result)
+        res.status(200).send("money transferred")
 
     }catch (e) {
         console.log(e)
@@ -47,7 +47,7 @@ const listAllIncomingTransfers = async (req, res) => { //todo Test edilecek
             throw Error("customer could not found")
         // let customerId=customer.dataValues.id
 
-        let result = await Transactions.findAll( {receiver:customername})
+        let result = await Transactions.findAll( {where:{receiver:username}})
         console.log("All Incoming transactions listed")
         res.status(200).send(result)
     }catch (e) {
@@ -63,7 +63,7 @@ const listAllOutgoingTransfers = async (req, res) => { //todo Test edilecek
             throw Error("customer could not found")
         // let customerId=customer.dataValues.id
 
-        let result = await Transactions.findAll( {sender:customername})
+        let result = await Transactions.findAll( {where:{sender:username}})
         console.log("All going transactions listed")
         res.status(200).send(result)
     }catch (e) {
@@ -112,8 +112,8 @@ const withdrawMoney = async (req, res) => { //todo Test edilecek
             balance:b1+amount
         })
         await user.save()
-        console.log("Money deposited into your account")
-        res.status(200).send("Money deposited into your account")
+        console.log("Money withdrawn from your account")
+        res.status(200).send("Money withdrawn from your account")
 
     }catch (e) {
         console.log(e)
