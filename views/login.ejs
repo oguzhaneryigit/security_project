@@ -12,18 +12,50 @@
         }
 
     </script>
+
+<style>
+    .btn{
+        background-color: #4CAF50; 
+        border: none;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        cursor: pointer;
+
+    }
+    .btn:hover {
+    opacity: 0.5;
+}
+    #login{
+        background-color: #4CAF50; 
+    }
+    #register{
+        background-color: #008CBA; 
+    }
+    input[type="text"]{
+    width:200px;
+}
+input[type="password"]{
+    width:200px;
+}
+</style>
+
+
 </head>
 <body>
-    <h1>  Login  </h1><br>
-    <div class="container">
+    <h1 font-family="font-family: Tahoma, sans-serif;"align="center"> Banking Application Login  </h1><br>
+    <div class="container" align="center">
         <label>Username : </label>
         <input type="text" placeholder="Enter Username" id="username" required><br><br>
         <label>Email : </label>
         <input type="text" placeholder="Enter Email" id="email" required><br><br>
         <label>Password : </label>
         <input type="password" placeholder="Enter Password" id="password" required><br><br>
-        <button id="login">Login</button>
-        <button id="register">Register</button>
+        <button class="btn" id="login">Login</button>
+        <button class="btn" id="register">Register</button>
 
     </div>
 </form>
@@ -52,6 +84,8 @@
                 // let xhttp1 = new XMLHttpRequest();
                 // xhttp1.open("GET", "/home" )
                 // xhttp1.send(data);
+                 document.location.href = '/home' 
+                
 
             }
             else if(this.status==400){

@@ -8,6 +8,9 @@ const {salt}= require("../config/config")
 router.get("/",(req,res)=> {
     console.log("")
     res.status(200).render("login.ejs")
+    
+    
+    
 })
 router.get("/home",(req,res)=> {
     console.log("home")
