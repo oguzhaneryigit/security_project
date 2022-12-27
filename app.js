@@ -5,13 +5,11 @@ const bodyParser = require('body-parser');
 const {urlencoded} = require('express');
 const Sequelize = require("sequelize")
 const fs= require("fs")
+const path = require("path");
 
 
 
-//todo Input Validation
 //todo SSL Certificate
-//todo sql injection kontrolü
-
 
 
 // ssl credentials
@@ -20,9 +18,9 @@ const fs= require("fs")
 // let credentials = {key, cert};
 
 // routes
-indexRouter = require("./routers/indexRouter")
-userRouter = require("./routers/userRouter")
-customerRouter=require("./routers/customerRouter")
+let indexRouter = require("./routers/indexRouter")
+let userRouter = require("./routers/userRouter")
+let customerRouter=require("./routers/customerRouter")
 
 // constants
 const {PORT} = require("./config/config")
@@ -31,6 +29,11 @@ const {PORT} = require("./config/config")
 const app = express();
 //const httpsServer = https.createServer(credentials, app);
 const httpsServer = https.createServer( app);
+
+//ejs
+app.use(express.static("./public")) //istek yapılırken public içerisindeki dosyalara erişimi sağlar
+app.set("view engine",'ejs')
+app.set('views',path.resolve(__dirname,"./views"))
 
 // middlewares
 app.use(express.json());

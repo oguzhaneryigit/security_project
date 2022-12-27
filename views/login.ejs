@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <script >
+        function login(un,pw) {
+
+        }
+
+    </script>
+</head>
+<body>
+    <h1>  Login  </h1><br>
+    <div class="container">
+        <label>Username : </label>
+        <input type="text" placeholder="Enter Username" id="username" required><br><br>
+        <label>Email : </label>
+        <input type="text" placeholder="Enter Email" id="email" required><br><br>
+        <label>Password : </label>
+        <input type="password" placeholder="Enter Password" id="password" required><br><br>
+        <button id="login">Login</button>
+        <button id="register">Register</button>
+
+    </div>
+</form>
+
+</body>
+<script >
+    let loginButton=document.getElementById("login")
+    let registerButton=document.getElementById("register")
+    let emailBox=document.getElementById("email")
+    let passwordBox=document.getElementById("password")
+    let usernameBox=document.getElementById("username")
+
+    loginButton.addEventListener("click",()=>{
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "/login" )
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.responseType = 'json';
+
+        let data=new FormData()
+        data.username=usernameBox.value
+        data.password=passwordBox.value
+        console.log(data)
+
+        xhttp.onload = function() {
+            if(this.status===200){
+                // let xhttp1 = new XMLHttpRequest();
+                // xhttp1.open("GET", "/home" )
+                // xhttp1.send(data);
+
+            }
+            else if(this.status==400){
+                alert("error2")
+            }
+        };
+        xhttp.send(JSON.stringify(data));
+    })
+
+    registerButton.addEventListener("click",()=>{
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("POST", "/register" )
+        xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        xhttp.responseType = 'json';
+        let data=new FormData()
+        data.email=emailBox.value
+        data.username=usernameBox.value
+        data.password=passwordBox.value
+        xhttp.onload = function() {
+            if(this.status===200){
+                alert("success")
+            }
+            else if(this.status===400){
+                alert("error4")
+            }
+        };
+        xhttp.send(data);
+    })
+</script>
+</html>

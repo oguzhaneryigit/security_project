@@ -39,9 +39,11 @@ const moneyProcessSchema= Joi.object({
 
 const loginBodyValidator =async (req,res,next)=>{
     try{
+        console.log(req.body)
         await credentialScheama.validateAsync(req.body)
         next()
     }catch(e){
+        console.log(e)
         res.status(401).send("Not supported data type")
     }
 }
@@ -50,11 +52,10 @@ const RegisterBodyValidator =async (req,res,next)=>{
     try{
         console.log(req.body)
         await credentialWemailScheama.validateAsync(req.body)
-        
         next()
     }catch(e){
         res.status(401).send("Not supported data type")
-        //console.log(e)
+        console.log(e)
     }
 }
 const moneyProcessValidator =async (req,res,next)=>{
