@@ -57,8 +57,15 @@
         }
 
 
-
-
+        table {
+        border-collapse: collapse;
+        width: 100%;
+        }
+        th, td {
+        padding: 8px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
@@ -76,14 +83,30 @@
         <button class="btn"id="deposit">deposit</button>
         <button class="btn"id="transfer">transfer</button>
         <br><br>
-        <label  style="font-family: Arial, Helvetica, sans-serif" for="cars"><%=label%></label>
+        <label  style="font-family: Arial, Helvetica, sans-serif" for="cars"><%=label%> Transactions</label>
         <br><br>
-        <select  name="<%= label%>>" id="cars" size="<%= data.length%>">
+        <!-- <select  name="<%= label%>>" id="cars" size="<%= data.length%>">
             <% for(var i=0; i<data.length; i++) {%>
                 <option value="<%= data[i].id%>"><%= "user:"+data[i].receiver+"\t"%>  amount<%= ": "+data[i].amount+"   "%> </option>
 
             <% } %>
-        </select>
+        </select> -->
+
+        <table style="text-align:center">
+            <tr>
+               <th>Receiver Username</th><th>Amount</th><th>Transaction Date</th>
+            </tr>
+         
+            <% for (var i = 0; i < data.length; i++) { %>
+            <tr>
+               <td><%= data[i].receiver %></td>
+               <td><%= data[i].amount %></td>
+               <td><%= data[i].createdAt%></td>
+               
+             </tr>    
+            <% } %>
+         </table>
+
         <br><br>
         <hr>
         <button class="btn" id="incoming">List Incoming</button>
