@@ -23,7 +23,7 @@
         <br><br>
         <select name="<%= label%>>" id="cars" size="<%= data.length%>">
             <% for(var i=0; i<data.length; i++) {%>
-                <option value="<%= data[i].id%>">to<%= data[i].receiver%>  amount<%= data[i].amount%> </option>
+                <option value="<%= data[i].id%>"><%= "user:"+data[i].receiver+"\t"%>  amount<%= ": "+data[i].amount+"   "%> </option>
 
             <% } %>
         </select>
@@ -121,6 +121,7 @@
             };
             xhttp.send(JSON.stringify(data));
         })
+
         incomingButton.addEventListener("click",()=> {
             let link=document.createElement('a');
             document.body.appendChild(link)

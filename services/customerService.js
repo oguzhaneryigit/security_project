@@ -58,15 +58,15 @@ const listAllIncomingTransfers = async (req, res) => { //todo Test edilecek
         let result = await Transactions.findAll( {where:{receiver:username}})
         console.log("All Incoming transactions listed")
         // res.status(200).send(result)
-        res.send({
+        res.render("account.ejs",{
             balance:customer.balance,
             username:customer.dataValues.username,
-            label:"incoming",
+            label:"outgoing",
             data:result
         })
     }catch (e) {
         console.log(e)
-        res.status(400).send()
+        res.status(400).send("error")
     }
 }
 const listAllOutgoingTransfers = async (req, res) => { //todo Test edilecek
@@ -89,7 +89,7 @@ const listAllOutgoingTransfers = async (req, res) => { //todo Test edilecek
         })
     }catch (e) {
         console.log(e)
-        res.status(400).send()
+        res.status(400).send("error")
     }
 }
 //para yatir
