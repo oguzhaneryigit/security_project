@@ -61,8 +61,8 @@ const listAllIncomingTransfers = async (req, res) => { //todo Test edilecek
         res.send({
             balance:customer.balance,
             username:customer.dataValues.username,
-            label:"x",
-            data:[1,2,23,3,4,5,6]
+            label:"incoming",
+            data:result
         })
     }catch (e) {
         console.log(e)
@@ -71,6 +71,7 @@ const listAllIncomingTransfers = async (req, res) => { //todo Test edilecek
 }
 const listAllOutgoingTransfers = async (req, res) => { //todo Test edilecek
     try{
+
         let {username} = req.body
         let customer =await Users.findOne({where:{username}})
         if (customer==null)
@@ -83,8 +84,8 @@ const listAllOutgoingTransfers = async (req, res) => { //todo Test edilecek
         res.render("account.ejs",{
             balance:customer.balance,
             username:customer.dataValues.username,
-            label:"x",
-            data:[1,2,3,4]
+            label:"outgoing",
+            data:result
         })
     }catch (e) {
         console.log(e)

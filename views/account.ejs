@@ -21,9 +21,9 @@
         <br>
         <label for="cars"><%=label%></label>
         <br><br>
-        <select name="<%= label%>>" id="cars" size="10">
+        <select name="<%= label%>>" id="cars" size="<%= data.length%>">
             <% for(var i=0; i<data.length; i++) {%>
-                <option value="<%= data[i].id%>"><%= data[i].id%></option>
+                <option value="<%= data[i].id%>">to<%= data[i].receiver%>  amount<%= data[i].amount%> </option>
 
             <% } %>
         </select>
@@ -122,43 +122,19 @@
             xhttp.send(JSON.stringify(data));
         })
         incomingButton.addEventListener("click",()=> {
-            let xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "/customer/listallincomingtransfers")
-            xhttp.setRequestHeader("Authorization","Bearer "+getCookie("token"))
+            let link=document.createElement('a');
+            document.body.appendChild(link)
+            link.href="/customer/listallincomingtransfers"
+            link.click()
 
-            xhttp.responseType = 'json';
-
-
-            xhttp.onload = function () {
-                if (this.status === 200) {
-
-                } else if (this.status == 401) {
-                    alert("not authorized")
-                } else if (this.status == 400) {
-                    alert("error2")
-                }
-            };
-            xhttp.send();
         })
 
         outgoingButton.addEventListener("click",()=> {
-            let xhttp = new XMLHttpRequest();
-            xhttp.open("GET", "/customer/listalloutgoingtransfers")
-            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
-            xhttp.setRequestHeader("Authorization","Bearer "+getCookie("token"))
-            xhttp.responseType = 'json';
+            let link=document.createElement('a');
+            document.body.appendChild(link)
+            link.href="/customer/listalloutgoingtransfers"
+            link.click()
 
-            xhttp.onload = function () {
-                if (this.status === 200) {
-                    alert("listed")
-
-                } else if (this.status == 401) {
-                    alert("not authorized")
-                } else if (this.status == 400) {
-                    alert("error2")
-                }
-            };
-            xhttp.send();
         })
         function getCookie(name) {
             var nameEQ = name + "=";
