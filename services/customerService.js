@@ -61,7 +61,7 @@ const listAllIncomingTransfers = async (req, res) => { //todo Test edilecek
         res.render("account.ejs",{
             balance:customer.balance,
             username:customer.dataValues.username,
-            label:"outgoing",
+            label:"incoming",
             data:result
         })
     }catch (e) {
