@@ -6,7 +6,7 @@ const {urlencoded} = require('express');
 const Sequelize = require("sequelize")
 const fs= require("fs")
 const path = require("path");
-
+const cookieParser = require('cookie-parser');
 
 
 //todo SSL Certificate
@@ -39,6 +39,7 @@ app.set('views',path.resolve(__dirname,"./views"))
 app.use(express.json());
 app.use(urlencoded({extended: true}));
 app.use(bodyParser.json())
+app.use(cookieParser());
 
 // middle end-points
 app.use("/", indexRouter)

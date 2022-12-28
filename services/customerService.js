@@ -4,9 +4,11 @@ const {salt,expiresIn,algorithm} = require("../config/config")
 const jwt = require("jsonwebtoken")
 
 const transferMoney = async (req, res) => { //todo Test edilecek
-    let {sender,receiver,amount} = req.body
+    let {username,receiver,amount} = req.body
     try{
-        let sendercostumer = await Users.findOne({where:{username:sender}})
+        amount=parseFloat(amount)
+        console.log("transfer")
+        let sendercostumer = await Users.findOne({where:{username:username}})
         let receivercostumer = await Users.findOne({where:{username:receiver}})
         if (sendercostumer==null ||receivercostumer==null){
             throw Error("Customers(s) could not found")
@@ -14,8 +16,8 @@ const transferMoney = async (req, res) => { //todo Test edilecek
         if(sendercostumer.balance<amount)
             throw Error("Insufficient balance to transfer money")
 
-        let b1=sendercostumer.balance
-        let b2=receivercostumer.balance
+        let b1=parseFloat(sendercostumer.balance)
+        let b2=parseFloat(receivercostumer.balance)
         sendercostumer.set({
             balance:b1-amount
         })
@@ -25,10 +27,16 @@ const transferMoney = async (req, res) => { //todo Test edilecek
         //let result1 = await Users.upddate({balance:b1-amount},{username:sendercostumer.username})
         let result1 = await sendercostumer.save()
         let result2 = await receivercostumer.save()
-        let result3 = await Transactions.create({ sender, receiver,amount})
+        let result3 = await Transactions.create({ sender:username, receiver,amount})
 
         console.log("Money Transferred ")
-        res.status(200).send("money transferred")
+        // res.status(200).send("money transferred")
+        res.render("account.ejs",{
+            balance:b1-amount,
+            username:sendercostumer.dataValues.username,
+            label:"",
+            data:[]
+        })
 
     }catch (e) {
         console.log(e)
@@ -49,7 +57,13 @@ const listAllIncomingTransfers = async (req, res) => { //todo Test edilecek
 
         let result = await Transactions.findAll( {where:{receiver:username}})
         console.log("All Incoming transactions listed")
-        res.status(200).send(result)
+        // res.status(200).send(result)
+        res.send({
+            balance:customer.balance,
+            username:customer.dataValues.username,
+            label:"x",
+            data:[1,2,23,3,4,5,6]
+        })
     }catch (e) {
         console.log(e)
         res.status(400).send()
@@ -65,7 +79,13 @@ const listAllOutgoingTransfers = async (req, res) => { //todo Test edilecek
 
         let result = await Transactions.findAll( {where:{sender:username}})
         console.log("All going transactions listed")
-        res.status(200).send(result)
+        // res.status(200).send(result)
+        res.render("account.ejs",{
+            balance:customer.balance,
+            username:customer.dataValues.username,
+            label:"x",
+            data:[1,2,3,4]
+        })
     }catch (e) {
         console.log(e)
         res.status(400).send()
@@ -76,18 +96,24 @@ const depositMoney = async (req, res) => { //todo Test edilecek
     try{
         let {username,amount} = req.body
         let userId
+        amount=parseFloat(amount)
 
         let user =await Users.findOne({where:{username}})
         if (user==null)
             throw Error("user could not found")
-        b1=user.dataValues.balance
+        let b1=parseFloat(user.balance)
         user.set({
             balance:b1+amount
         })
         await user.save()
         console.log("Money deposited into your account")
-        res.status(200).send("Money deposited into your account")
-
+        // res.status(200).send("Money deposited into your account")
+        res.render("account.ejs",{
+            balance:b1+amount,
+            username:user.dataValues.username,
+            label:"",
+            data:[]
+        })
     }catch (e) {
         console.log(e)
         res.status(400).send()
@@ -100,21 +126,26 @@ const withdrawMoney = async (req, res) => { //todo Test edilecek
     try{
         let {username,amount} = req.body
         let userId
-
+        amount=parseFloat(amount)
         let user =await Users.findOne({where:{username}})
         if (user==null)
             throw Error("user could not found")
-        let b1=user.dataValues.balance
+        let b1=parseFloat(user.balance)
         if(b1<amount){
             throw Error("balance is not enough")
         }
         user.set({
-            balance:b1+amount
+            balance:b1-amount
         })
         await user.save()
         console.log("Money withdrawn from your account")
-        res.status(200).send("Money withdrawn from your account")
-
+        // res.status(200).send("Money withdrawn from your account")
+        res.render("account.ejs",{
+            balance:b1-amount,
+            username:user.dataValues.username,
+            label:"",
+            data:[]
+        })
     }catch (e) {
         console.log(e)
         res.status(400).send()

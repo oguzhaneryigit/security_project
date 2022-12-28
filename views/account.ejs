@@ -8,6 +8,168 @@
     <title>Home</title>
 </head>
 <body>
+    <div class="container">
+        <label >Username: <%= username %></label><br>
+        <label >Balance: <%= balance %></label><br>
+        <label>Withdraw or Deposit Money : </label>
+        <input type="number" placeholder="Amount" id="amount"><br>
+        <input type="text" placeholder="Receiver" id="receiver"><br>
 
+        <button id="withdraw">withdraw</button>
+        <button id="deposit">deposit</button>
+        <button id="transfer">transfer</button>
+        <br>
+        <label for="cars"><%=label%></label>
+        <br><br>
+        <select name="<%= label%>>" id="cars" size="10">
+            <% for(var i=0; i<data.length; i++) {%>
+                <option value="<%= data[i].id%>"><%= data[i].id%></option>
+
+            <% } %>
+        </select>
+        <br><br>
+        <button id="incoming">list incoming</button>
+        <button id="outgoing">list outgoing</button>
+
+    </div>
+
+    <script >
+        let withdrawButton=document.getElementById("withdraw")
+        let depositButton=document.getElementById("deposit")
+        let transferButton=document.getElementById("transfer")
+        let incomingButton=document.getElementById("incoming")
+        let outgoingButton=document.getElementById("outgoing")
+
+        let amountBox=document.getElementById("amount")
+        let receiverBox=document.getElementById("receiver")
+
+        withdrawButton.addEventListener("click",()=>{
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "/customer/withdrawmoney" )
+            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp.setRequestHeader("Authorization","Bearer "+getCookie("token"))
+
+            xhttp.responseType = 'json';
+
+            let data=new FormData()
+            data.amount=amountBox.value
+            console.log(data)
+
+            xhttp.onload = function() {
+                if(this.status===200){
+                    alert("money withdrawn")
+                    location.reload()
+                }
+                else if(this.status==401){
+                    alert("not authorized")
+                }
+                else if(this.status==400){
+                    alert("error2")
+                }
+            };
+            xhttp.send(JSON.stringify(data));
+        })
+
+        depositButton.addEventListener("click",()=>{
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "/customer/depositmoney" )
+            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp.setRequestHeader("Authorization","Bearer "+getCookie("token"))
+            xhttp.responseType = 'json';
+            console.log(xhttp)
+            let data=new FormData()
+            data.amount=amountBox.value
+            console.log(data)
+
+            xhttp.onload = function() {
+                if(this.status===200){
+                    alert("money deposited")
+                    location.reload()
+                }
+                else if(this.status==401){
+                    alert("not authorized")
+                }
+                else if(this.status==400){
+                    alert("error2")
+                }
+            };
+            xhttp.send(JSON.stringify(data));
+
+        })
+        transferButton.addEventListener("click",()=> {
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "/customer/transfermoney")
+            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp.setRequestHeader("Authorization","Bearer "+getCookie("token"))
+
+            xhttp.responseType = 'json';
+
+            let data = new FormData()
+            data.amount = amountBox.value
+            data.receiver = receiverBox.value
+                console.log(data)
+
+            xhttp.onload = function () {
+                if (this.status === 200) {
+                    alert("money transferred")
+                    location.reload()
+                } else if (this.status == 401) {
+                    alert("not authorized")
+                } else if (this.status == 400) {
+                    alert("error2")
+                }
+            };
+            xhttp.send(JSON.stringify(data));
+        })
+        incomingButton.addEventListener("click",()=> {
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "/customer/listallincomingtransfers")
+            xhttp.setRequestHeader("Authorization","Bearer "+getCookie("token"))
+
+            xhttp.responseType = 'json';
+
+
+            xhttp.onload = function () {
+                if (this.status === 200) {
+
+                } else if (this.status == 401) {
+                    alert("not authorized")
+                } else if (this.status == 400) {
+                    alert("error2")
+                }
+            };
+            xhttp.send();
+        })
+
+        outgoingButton.addEventListener("click",()=> {
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("GET", "/customer/listalloutgoingtransfers")
+            xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+            xhttp.setRequestHeader("Authorization","Bearer "+getCookie("token"))
+            xhttp.responseType = 'json';
+
+            xhttp.onload = function () {
+                if (this.status === 200) {
+                    alert("listed")
+
+                } else if (this.status == 401) {
+                    alert("not authorized")
+                } else if (this.status == 400) {
+                    alert("error2")
+                }
+            };
+            xhttp.send();
+        })
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for(var i=0;i < ca.length;i++) {
+                var c = ca[i];
+                while (c.charAt(0)==' ') c = c.substring(1,c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+            }
+            return null;
+        }
+    </script>
 </body>
 </html>

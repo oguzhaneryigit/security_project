@@ -28,7 +28,7 @@ const listTransferSchema = Joi.object({
     username:usernameConstraints
 })
 const transferSchema = Joi.object({
-    sender:usernameConstraints,
+    username:usernameConstraints,
     receiver:usernameConstraints,
     amount:amountConstraints
 })
@@ -44,7 +44,7 @@ const loginBodyValidator =async (req,res,next)=>{
         next()
     }catch(e){
         console.log(e)
-        res.status(401).send("Not supported data type")
+        res.status(400).send("Not supported data type")
     }
 }
 const RegisterBodyValidator =async (req,res,next)=>{
@@ -54,7 +54,7 @@ const RegisterBodyValidator =async (req,res,next)=>{
         await credentialWemailScheama.validateAsync(req.body)
         next()
     }catch(e){
-        res.status(401).send("Not supported data type")
+        res.status(400).send("Not supported data type")
         console.log(e)
     }
 }
@@ -63,7 +63,7 @@ const moneyProcessValidator =async (req,res,next)=>{
         await moneyProcessSchema.validateAsync(req.body)
         next()
     }catch(e){
-        res.status(401).send("Not supported data type")
+        res.status(400).send("Not supported data type")
     }
 }
 const transferValidator =async (req,res,next)=>{
@@ -71,7 +71,7 @@ const transferValidator =async (req,res,next)=>{
         await transferSchema.validateAsync(req.body)
         next()
     }catch(e){
-        res.status(401).send("Not supported data type")
+        res.status(400).send("Not supported data type")
     }
 }
 const listTransferValidator =async (req,res,next)=>{
@@ -79,7 +79,7 @@ const listTransferValidator =async (req,res,next)=>{
         await listTransferSchema.validateAsync(req.body)
         next()
     }catch(e){
-        res.status(401).send("Not supported data type")
+        res.status(400).send("Not supported data type")
     }
 }
 module.exports = {
