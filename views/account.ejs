@@ -6,30 +6,88 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Home</title>
+
+    <style>
+        body{
+            background-color:#FFFAFA;
+        }
+
+        .btn{
+            background-color: #4CAF50; 
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+        }
+
+        #outgoing{
+            background-color: #008CBA;
+        }
+        #incoming{
+
+            background-color: #008CBA;
+
+        }
+
+        .btn:hover{
+            opacity:0.5;
+        }
+
+        input[type="text"],select{
+            width: 300px;
+            padding: 12px 20px;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        input[type="number"]{
+            width: 300px;
+            padding: 12px 20px;
+            margin: 8px 0;
+             display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+
+
+
+    </style>
 </head>
 <body>
-    <div class="container">
-        <label >Username: <%= username %></label><br>
-        <label >Balance: <%= balance %></label><br>
-        <label>Withdraw or Deposit Money : </label>
+    <div class="container" align="center">
+        <label style="font-family: Arial, Helvetica, sans-serif">Username: <%= username %></label><br>
+        <label style="font-family: Arial, Helvetica, sans-serif">Balance: <%= balance %></label><br><br>
+        <hr>
+        <label style="font-family: Arial, Helvetica, sans-serif">Withdraw or Deposit Money : </label>
         <input type="number" placeholder="Amount" id="amount"><br>
+        <label style="font-family: Arial, Helvetica, sans-serif">Transfer Money: </label>
         <input type="text" placeholder="Receiver" id="receiver"><br>
-
-        <button id="withdraw">withdraw</button>
-        <button id="deposit">deposit</button>
-        <button id="transfer">transfer</button>
         <br>
-        <label for="cars"><%=label%></label>
+
+        <button class="btn"id="withdraw">withdraw</button>
+        <button class="btn"id="deposit">deposit</button>
+        <button class="btn"id="transfer">transfer</button>
         <br><br>
-        <select name="<%= label%>>" id="cars" size="<%= data.length%>">
+        <label  style="font-family: Arial, Helvetica, sans-serif" for="cars"><%=label%></label>
+        <br><br>
+        <select  name="<%= label%>>" id="cars" size="<%= data.length%>">
             <% for(var i=0; i<data.length; i++) {%>
                 <option value="<%= data[i].id%>"><%= "user:"+data[i].receiver+"\t"%>  amount<%= ": "+data[i].amount+"   "%> </option>
 
             <% } %>
         </select>
         <br><br>
-        <button id="incoming">list incoming</button>
-        <button id="outgoing">list outgoing</button>
+        <hr>
+        <button class="btn" id="incoming">List Incoming</button>
+        <button class="btn" id="outgoing">List Outgoing</button>
 
     </div>
 
